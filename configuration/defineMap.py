@@ -1,0 +1,97 @@
+def init():
+
+    global rooms_json
+    global ScheduleByTypeRoom
+
+    #Store the rooms
+    rooms_json = [
+    {'name':'Hall.1', 'entrance':'', 'type':'hall', 'conectedTo': {'L':'Restroom', 'U':'Hall.2', 'D':'outBuilding'}, 'measures': {'dx':13, 'dy':5.2, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2}}},
+    {'name':'Hall.2', 'type':'hall', 'conectedTo': {'L':'Lab21', 'U':'Hall.3', 'D':'Hall.1'}, 'measures': {'dx':13, 'dy':2.15, 'dh': 2.98}},
+    {'name':'Hall.3', 'type':'hall', 'conectedTo': {'R':'C.1', 'L':'Class1.1', 'U':'Class2', 'D':'Hall.2'}, 'measures': {'dx':13, 'dy':2.15, 'dh': 2.98}},
+
+    {'name':'C.1', 'type':'corridor', 'conectedTo': {'R':'C.2', 'L':'Hall.2', 'U':'Class3', 'D':'Class4.1'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.2', 'type':'corridor', 'conectedTo': {'R':'C.3', 'L':'C.1', 'U':'Office1', 'D':'CI.11'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.3', 'type':'corridor', 'conectedTo': {'R':'C.4', 'L':'C.2', 'U':'Office2'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.4', 'type':'corridor', 'conectedTo': {'R':'C.5', 'L':'C.3', 'U':'Office3'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.5', 'type':'corridor', 'conectedTo': {'R':'C.6', 'L':'C.4', 'U':'Office4', 'D':'CI.41'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.6', 'type':'corridor', 'conectedTo': {'R':'C.7', 'L':'C.5', 'U':'Office5'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.7', 'type':'corridor', 'conectedTo': {'R':'C.8', 'L':'C.6', 'U':'Office6'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.8', 'type':'corridor', 'conectedTo': {'R':'C.9', 'L':'C.7', 'U':'Office7', 'D':'Lab10.1'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.9', 'type':'corridor', 'conectedTo': {'R':'C.10', 'L':'C.8', 'U':'Office8'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.10', 'type':'corridor', 'conectedTo': {'R':'C.11', 'L':'C.9', 'U':'Office9'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.11', 'type':'corridor', 'conectedTo': {'R':'C.12', 'L':'C.10', 'U':'Office10', 'D':'Lab12'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.12', 'type':'corridor', 'conectedTo': {'R':'C.13', 'L':'C.11', 'U':'Office11'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.13', 'type':'corridor', 'conectedTo': {'R':'C.14', 'L':'C.12', 'U':'Office12', 'D':'Lab15.1'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.14', 'type':'corridor', 'conectedTo': {'R':'C.15', 'L':'C.13', 'U':'Office13', 'D':'Lab16'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.15', 'type':'corridor', 'conectedTo': {'R':'C.16', 'L':'C.14', 'U':'Office14'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}},
+    {'name':'C.16', 'type':'corridor', 'conectedTo': {'L':'C.15', 'U':'BuildingC', 'D':'Lab19'}, 'measures': {'dx':4.57, 'dy':2.6, 'dh': 2.69}, 'windows':{'E': {'l1': 2, 'l2':2}}},
+
+    {'name':'CI.11', 'type':'corridor', 'conectedTo': {'U':'C.2', 'D':'CI.12'}, 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98 }},
+    {'name':'CI.12', 'type':'corridor', 'conectedTo': {'U':'CI.11', 'R':'CI.2', 'D':'Lab1'}, 'measures': {'dx':4.57, 'dy':1, 'dh': 2.98}},
+    {'name':'CI.2', 'type':'corridor', 'conectedTo': {'U':'Lab6.1', 'L':'CI.12', 'R':'CI.3', 'D':'Lab2'}, 'measures': {'dx':4.57, 'dy':1, 'dh': 2.98}},
+    {'name':'CI.3', 'type':'corridor', 'conectedTo': {'U':'Lab6.2', 'L':'CI.2', 'R':'CI.4', 'D':'Lab3'}, 'measures': {'dx':4.57, 'dy':1, 'dh': 2.98}},
+    {'name':'CI.41', 'type':'corridor', 'conectedTo': {'U':'C.5', 'D':'CI.42'}, 'measures': {'dx':4.57, 'dy':1, 'dh': 2.98}},
+    {'name':'CI.42', 'type':'corridor', 'conectedTo': {'U':'CI.42', 'L':'CI.3', 'R':'CI.5', 'D':'Lab4'}, 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}},
+    {'name':'CI.5', 'type':'corridor', 'conectedTo': {'U':'Lab7', 'L':'CI.4', 'R':'Lab8.2', 'D':'Lab5'}, 'measures': {'dx':4.57, 'dy':1, 'dh': 2.98}},
+
+    {'name':'Office1', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office2', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office3', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office4', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office5', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office6', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office7', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office8', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office9', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office10', 'type' : 'office','measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office11', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office12', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office13', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+    {'name':'Office14', 'type' : 'office', 'measures': {'dx':4.57, 'dy':3.64, 'dh': 2.98}, 'windows':{'N': {'l1': 1.25, 'l2':3.5}}},
+
+    {'name':'Lab1', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab2', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab3', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab4', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab5', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab6.1', 'type' : 'lab', 'conectedTo': {'R':'Lab6.2'}, 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}},
+    {'name':'Lab6.2', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}},
+    {'name':'Lab7', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}},
+    {'name':'Lab8.1', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}},
+    {'name':'Lab8.2', 'type' : 'lab', 'conectedTo': {'D':'Lab9', 'U': 'Lab8.1'}, 'measures': {'dx':4.57,'dy':1, 'dh': 2.98}},
+    {'name':'Lab9', 'type' : 'lab', 'measures' : {'dx':4.57,'dy':3.64, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab10.1', 'type' : 'lab', 'conectedTo': {'R': 'Lab10.2', 'D': 'Lab10.3'}, 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}},
+    {'name':'Lab10.2', 'type' : 'lab', 'conectedTo': {'D': 'Lab10.4', 'R': 'Lab11.1'}, 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}},
+    {'name':'Lab10.3', 'type' : 'lab', 'conectedTo': {'R': 'Lab10.4'}, 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab10.4', 'type' : 'Lab', 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab11.1', 'type' : 'lab', 'conectedTo': {'D': 'Lab11.2'}, 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}},
+    {'name':'Lab11.2', 'type' : 'lab', 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab12', 'type' : 'lab', 'conectedTo': {'D':'Lab13', 'R': 'Lab14.1'}, 'measures': {'dx':4.57,'dy':4.67, 'dh': 2.98}},
+    {'name':'Lab13', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab14.1', 'type' : 'lab', 'conectedTo': {'D': 'Lab14.2'}, 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}},
+    {'name':'Lab14.2', 'type' : 'lab', 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab15.1', 'type' : 'lab', 'conectedTo': {'D': 'Lab15.2'}, 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}},
+    {'name':'Lab15.2', 'type' : 'lab', 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}},
+    {'name':'Lab16', 'type' : 'lab', 'conectedTo': {'D':'Lab17', 'R':'Lab18.1'}, 'measures': {'dx':4.57,'dy':2.5, 'dh': 2.98}},
+    {'name':'Lab17', 'type' : 'lab','measures': {'dx':4.57,'dy':5.7, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab18.1', 'type' : 'lab', 'conectedTo': {'D': 'Lab18.2'}, 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}},
+    {'name':'Lab18.2', 'type' : 'lab', 'measures': {'dx':4.57,'dy':4.15, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab19', 'type' : 'lab', 'conectedTo': {'D':'Lab20'},  'measures': {'dx':4.57,'dy':4.67, 'dh': 2.98},'windows':{'E': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab20', 'type' : 'lab', 'measures': {'dx':4.57,'dy':3.64, 'dh': 2.98}, 'windows':{'S': {'l1': 1.25, 'l2':2.75}, 'E': {'l1': 1.25, 'l2':2.75}}},
+    {'name':'Lab21', 'type' : 'lab', 'measures': {'dx':8.31,'dy':5.19, 'dh': 2.98}, 'windows':{'W': {'l1': 1.25, 'l2':1.75}}},
+
+    {'name':'Restroom', 'type' : 'restroom', 'measures': {'dx':8.31,'dy':5.19, 'dh': 1}},
+
+    {'name':'outBuilding', 'type' : 'out'},
+    {'name':'BuildingC', 'type' : 'restroom', 'measures': {'dx':8.31,'dy':5.19, 'dh': 1}},
+
+    {'name':'Class1.1', 'type' : 'class', 'conectedTo': {'U': 'Class1.2'}, 'measures': {'dx':8.3,'dy':6.75, 'dh': 2.98}, 'windows':{'N': {'l1': 1.5, 'l2':3}}},
+    {'name':'Class1.2', 'type' : 'class', 'measures': {'dx':8.3,'dy':6.75, 'dh': 2.98}, 'windows':{'N': {'l1': 1.5, 'l2':3}}},
+    {'name':'Class2', 'type' : 'class', 'conectedTo': {'L': 'Class2.2'}, 'measures': {'dx':8.82,'dy':8.3, 'dh': 2.98}, 'windows':{'N': {'l1': 1.5, 'l2':6}}},
+    {'name':'Class3', 'type' : 'class', 'measures': {'dx':8.82,'dy':8.3, 'dh': 2.98}, 'windows':{'N': {'l1': 1.5, 'l2':6}}},
+    {'name':'Class4.1', 'type' : 'class', 'conectedTo': {'D':'Class4.2'}, 'measures': {'dx':8.82,'dy':4.15, 'dh': 2.98}},
+    {'name':'Class4.2', 'type' : 'class', 'measures': {'dx':8.82,'dy':4.15, 'dh': 2.98}, 'windows':{'S': {'l1': 1.5, 'l2':5}}},
+
+    ]
+
+ScheduleByTypeRoom = {'lab':(8.30, 21.00), 'corridor': (8.30, 20.00), 'hall': (8.30, 20.00), 'office': (8.30, 21.00), 'class': (15.0, 17.0)} #Model 
