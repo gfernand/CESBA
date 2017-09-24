@@ -3,14 +3,14 @@ import configuration.settings
 
 class Time(Agent):
 
-    def __init__(self):
-
+    def __init__(self, unique_id, model):
+        super().__init__(unique_id, model)
         self.timeByStep = configuration.settings.time_by_step
         self.day = 0
-        self.hour = 0
-        self.minute = 0
+        self.hour = 8
+        self.minute = 45
         self.seg = 0
-        self.clock = 00.00
+        self.clock = 8.45
 
     def step(self):
         self.seg = self.seg + self.timeByStep

@@ -16,7 +16,7 @@ def init():
 	statesProfessors = [
 		{'name':'leave', 'position': 'outBuilding'}, #initial state (the first)
 		{'name':'working in my office', 'position': {'Office1': 1, 'Office2': 1, 'Office3': 1, 'Office4': 1, 'Office5': 1, 'Office6': 1, 'Office7': 1, 'Office8': 1, 'Office9': 1, 'Office10': 1, 'Office11': 1, 'Office12': 1, 'Office13': 1, 'Office14': 1}},
-		{'name':'having a break', 'position': {'Hall': 4}}, #The others will rest in their own workPlace
+		{'name':'having a break', 'position': {'Hall': 14}}, #The others will rest in their own workPlace
 		{'name':'at restroom', 'position':'Restroom'},
 		{'name':'in a meeting', 'position': {'Class4':5 ,'Lab10':3,'Lab12':3,'Lab16':3}},
 		{'name':'lunch', 'position': 'outBuilding'},
@@ -45,12 +45,12 @@ def init():
 
 		#Researchers
 	#Number of Occupants
-	NResearches = 33 #33
+	NResearches = 10 #10
 
 	#Define states: name (str), position: str or ditc
 	statesResearchers = [
 		{'name':'leave', 'position': 'outBuilding'}, #initial state (the first)
-		{'name':'working in my laboratory', 'position': {'Lab1': 1, 'Lab2': 1, 'Lab3': 1, 'Lab4': 1, 'Lab5': 1, 'Lab6': 2, 'Lab7': 1, 'Lab8': 2, 'Lab9': 2, 'Lab11': 3, 'Lab13': 3, 'Lab14': 3, 'Lab15': 3, 'Lab17': 3, 'Lab18': 2, 'Lab19': 2, 'Lab20': 2}},
+		{'name':'working in my laboratory', 'position': {'Lab1': 1, 'Lab2': 1, 'Lab3': 1, 'Lab4': 1, 'Lab5': 1, 'Lab6': 1, 'Lab7': 1, 'Lab8': 1, 'Lab9': 1, 'Lab11': 0, 'Lab13': 0, 'Lab14': 0, 'Lab15': 0, 'Lab17': 0, 'Lab18': 0, 'Lab19': 0, 'Lab20': 0}},
 		{'name':'having a break', 'position': {'Hall': 10}},
 		{'name':'at restroom', 'position':'Restroom'},
 		{'name':'lunch', 'position': 'outBuilding'},
@@ -78,31 +78,31 @@ def init():
 
 		#Studients
 	#Number of Occupants
-	NStudients = 60 # 4 classes, Class1: 20, Class2: 15, Class3: 15, Class4: 10  Total: 60
+	# NStudients = 125 # 4 classes, Class1: 40, Class2: 35, Class3: 30, Class4: 20  Total: 125
 
-	#Define states: name (str), position: str or ditc
-	statesStudients = [
-		{'name':'leave', 'position': 'outBuilding'}, #initial state (the first)
-		{'name':'in class', 'position': {'Class1': 20, 'Class2': 15, 'Class3': 15, 'Class4': 10}},
-		{'name':'emergency', 'position':'outBuilding'}
-	]
+	# #Define states: name (str), position: str or ditc
+	# statesStudients = [
+	# 	{'name':'leave', 'position': 'outBuilding'}, #initial state (the first)
+	# 	{'name':'in class', 'position': {'Class1': 40, 'Class2': 35, 'Class3': 30, 'Class4': 20}},
+	# 	{'name':'emergency', 'position':'outBuilding'}
+	# ]
 
-	#states_use_PCsStudients = []
+	# #states_use_PCsStudients = []
 
-	#Define initial markov matrix
-	markov_matrixStudients = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+	# #Define initial markov matrix
+	# markov_matrixStudients = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 
-	controlBehaviourStudients = {'arriveTime': 15.55, 'leaveWorkTime': 18.05}
+	# controlBehaviourStudients = {'arriveTime': 15.55, 'leaveWorkTime': 18.05}
 
-	# %Occupants with behaviour: Perfect, good, bad. For "traditional case" only, in other case will be ignored.
-	#behaviourEnvironmentStudients = [10, 60, 30] #10/60/30
-	#TconfortStudients = [19, 27]
-	#TconfortWinter = [20, 26]
-	#leftClosedDoorStudients = [4, 7]
+	# # %Occupants with behaviour: Perfect, good, bad. For "traditional case" only, in other case will be ignored.
+	# #behaviourEnvironmentStudients = [10, 60, 30] #10/60/30
+	# #TconfortStudients = [19, 27]
+	# #TconfortWinter = [20, 26]
+	# #leftClosedDoorStudients = [4, 7]
 
-	occupancytudients = {'type':'studients' , 'N':NStudients, 'states': statesStudients, 'matrix': markov_matrixStudients, 'lifeWay': controlBehaviourStudients}
+	# occupancytudients = {'type':'studients' , 'N':NStudients, 'states': statesStudients, 'matrix': markov_matrixStudients, 'lifeWay': controlBehaviourStudients}
 	
-	occupancy_json.append(occupancytudients)
+	# occupancy_json.append(occupancytudients)
 
 def returnMatrix(agent, time):
 	new_matrix = False
@@ -116,7 +116,7 @@ def returnMatrix(agent, time):
 			new_matrix = [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]]
 		elif behaviour['meetingTime'] >= time >= behaviour['arriveTime']:
-			new_matrix = [[0, 100, 0, 0, 0, 0, 0, 0], [0, 50, 25, 25, 0, 0, 0, 0], [0, 100, 0, 0, 0, 0, 0, 0], [0, 100, 0, 0, 0, 0, 0, 0], 
+			new_matrix = [[45, 55, 0, 0, 0, 0, 0, 0], [0, 50, 25, 25, 0, 0, 0, 0], [0, 100, 0, 0, 0, 0, 0, 0], [0, 100, 0, 0, 0, 0, 0, 0], 
 			[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]]
 		elif (behaviour['meetingTime']+0.9) >= time >= behaviour['meetingTime']:
 			new_matrix = [[0, 100, 0, 0, 0, 0, 0, 0], [0, 30, 10, 10, 50, 0, 0, 0], [0, 50, 0, 0, 50, 0, 0, 0], [0, 50, 0, 0, 50, 0, 0, 0], 
@@ -171,16 +171,16 @@ def returnMatrix(agent, time):
 			[100, 0, 0, 0, 0, 0], [100, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
 		return new_matrix 
 
-	elif agent.type == 'studients':
-		if time > configuration.settings.activationFire:
-			new_matrix = [[0, 0, 100], [0, 0, 100], [0, 0, 100]]
-		elif time < behaviour['arriveTime']:
-			new_matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-		elif (behaviour['leaveWorkTime']) >= time >= behaviour['arriveTime']:
-			new_matrix =[[30, 70, 0], [0, 100, 0], [0, 0, 0]]
-		elif time >= (behaviour['leaveWorkTime']):
-			new_matrix = [[100, 0, 0], [70, 30, 0], [0, 0, 0]]
-		return new_matrix
+	# elif agent.type == 'studients':
+	# 	if time > configuration.settings.activationFire:
+	# 		new_matrix = [[0, 0, 100], [0, 0, 100], [0, 0, 100]]
+	# 	elif time < behaviour['arriveTime']:
+	# 		new_matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+	# 	elif (behaviour['leaveWorkTime']) >= time >= behaviour['arriveTime']:
+	# 		new_matrix =[[30, 70, 0], [0, 100, 0], [0, 0, 0]]
+	# 	elif time >= (behaviour['leaveWorkTime']):
+	# 		new_matrix = [[100, 0, 0], [70, 30, 0], [0, 0, 0]]
+	# 	return new_matrix
 
 	else:
 		return new_matrix
@@ -227,16 +227,16 @@ def getTimeInState(agent, time): #Hours.Minutes
 			timeActivity_matrix = [5, 0.30, 0.10, 0.10, 0, 0]
 		return timeActivity_matrix
 
-	elif agent.type == 'studients':
-		if time > configuration.settings.activationFire:
-			timeActivity_matrix = [0, 0, 0]
-		if time < behaviour['arriveTime']:
-			timeActivity_matrix = [13.0, 0, 0]
-		elif (behaviour['leaveWorkTime']) >= time >= behaviour['arriveTime']:
-			timeActivity_matrix = [0.01, 2, 0]
-		elif time >= behaviour['leaveWorkTime']:
-			timeActivity_matrix = [10, 0.01, 0]
-		return timeActivity_matrix
+	# elif agent.type == 'studients':
+	# 	if time > configuration.settings.activationFire:
+	# 		timeActivity_matrix = [0, 0, 0]
+	# 	if time < behaviour['arriveTime']:
+	# 		timeActivity_matrix = [13.0, 0, 0]
+	# 	elif (behaviour['leaveWorkTime']) >= time >= behaviour['arriveTime']:
+	# 		timeActivity_matrix = [0.01, 2, 0]
+	# 	elif time >= behaviour['leaveWorkTime']:
+	# 		timeActivity_matrix = [10, 0.01, 0]
+	# 	return timeActivity_matrix
 
 	else:
 		return timeActivity_matrix

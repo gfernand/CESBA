@@ -1,6 +1,6 @@
 from collections import defaultdict
 from mesa.visualization.ModularVisualization import VisualizationElement
-from model.model import SOBAModel
+from model.model import CESBAModel
 import numpy as np
 from agents.occupant import Occupant
 
@@ -32,63 +32,18 @@ class MapVisualization(VisualizationElement):
             for y in range(model.grid.height):
                 cell_objects = model.grid.get_cell_list_contents([(x, y)])
                 for obj in cell_objects:
-                    if isinstance(obj, Occupant):
-                        portrayal = self.portrayal_method(obj)
-                        if portrayal:
-                            portrayal["x"] = x
-                            portrayal["y"] = y
-                            grid_state[portrayal["Layer"]].append(portrayal)
+                    portrayal = self.portrayal_method(obj)
+                    if portrayal:
+                        portrayal["x"] = x
+                        portrayal["y"] = y
+                        grid_state[portrayal["Layer"]].append(portrayal)
 
-        offSet_Rooms = 10
-        roomsSends = []
-        for room in model.rooms:
-            send = False
-            for roomAux in roomsSends:
-                if (roomAux.name.split(r".")[0] == room.name.split(r".")[0]):
-                    send = True
-            if send == False:
-                nAgents = 0
-                for room2 in model.rooms:
-                     if (room2.name.split(r".")[0] == room.name.split(r".")[0]):
-                        nAgents = nAgents + len(room2.agentsInRoom)
-                x, y = room.pos
-
-                JSON_room = {"x":x,
-                             "y": y,
-                             "nAgents": nAgents,
-                             "perAgents": int((nAgents/model.num_occupants)* 100),
-                             "name": room.name.split(r".")[0],
-                             "text": room.name.split(r".")[0],
-                             "type": room.typeRoom
-                }
-                grid_state[offSet_Rooms].append(JSON_room)
-                roomsSends.append(room)
-            else:
-                x, y = room.pos
-                JSON_room = {"x":x,
-                             "y": y,
-                             "nAgents":'',
-                             "perAgents": '',
-                             "name": room.name.split(r".")[0],
-                             "text": '',
-                             "tra": '',
-                             "comfort": '',
-                             "type": room.typeRoom
-                }
-                JSON_room["TZ"] = ''
-                grid_state[offSet_Rooms].append(JSON_room)
-
-        offSet_Doors = offSet_Rooms + 10
-        for door in model.doors:
-            x1, y1 = door.room1.pos
-            x2, y2 = door.room2.pos
-            JSON_Door = {"x1": x1,
-                         "y1": y1,
-                         "x2": x2,
-                         "y2": y2,
-                         "state": door.state
+        offSet_Walls = 30
+        for wall in model.Walls:
+            JSON_Wall = {"x":wall.x,
+                         "y": wall.y
             }
-            grid_state[offSet_Doors].append(JSON_Door)
+            grid_state[offSet_Walls].append(JSON_Wall)
         return grid_state
 
 class GraphVisualization(VisualizationElement):
@@ -105,17 +60,16 @@ class GraphVisualization(VisualizationElement):
         data = []
         clock = 0
         day = model.clock.day
-
-        #if model.NStep != 0:
-        #    clock = model.clock.clock
-
-        #if day != 0 and 5>day:
-        #    for n in range(0, day):
-                
-
-        #if model.complete == True:
+        agentsBurned = 0
+        if model.NStep != 0:
+            clock = model.clock.clock
+        for agent in model.agents:
+            if agent.dead != False:
+                #print(agent.unique_id, "MUERTO:", agent.dead)
+                agentsBurned = agentsBurned + 1
 
         data.append(day)
         data.append(clock)
+        data.append(agentsBurned)
         
         return data
